@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_rule_hr_leave_operating_units" model="ir.rule">
+        <field name="model_id" ref="hr_holidays.model_hr_leave"/>
+        <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in', user.operating_unit_ids.ids)]</field>
+        <field name="name">Allowed Operating Units In Employee Leave</field>
+        <field eval="1" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="ir_rule_hr_leave_allocation_operating_units" model="ir.rule">
+        <field name="model_id" ref="hr_holidays.model_hr_leave_allocation"/>
+        <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in', user.operating_unit_ids.ids)]</field>
+        <field name="name">Allowed Operating Units In Employee Leave Allocation</field>
+        <field eval="1" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+        <field name="global" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="hr_leave_view_kanban_operating_unit" model="ir.ui.view">
+    <field name="name">hr.leave.view.kanban</field>
+    <field name="model">hr.leave</field>
+    <field name="inherit_id" ref="hr_holidays.hr_leave_view_kanban" />
+    <field name="arch" type="xml">
+        <xpath expr="//templates" position="before">
+             <field name="operating_unit_id"/>
+        </xpath>
+      <xpath expr="//strong[hasclass('o_kanban_record_title')]" position="after">
+          <strong class="o_kanban_operating_unit"><t t-esc="record.operating_unit_id.value"/></strong>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="hr_leave_view_form_manager_operating_unit" model="ir.ui.view">
+    <field name="name">hr.leave.view.form.manager</field>
+    <field name="model">hr.leave</field>
+    <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager" />
+    <field name="arch" type="xml">
+      <field name="employee_id" position="after">
+        <field name="operating_unit_id"
+               domain="[('user_ids', 'in', uid)]"
+               options="{'no_create': True}" 
+               groups="operating_unit.group_multi_operating_unit"
+               attrs="{
+                  'required': [('holiday_type', '=', 'employee')],
+                  'invisible': [('holiday_type', '!=', 'employee')]
+                  }"/>
+      </field>
+    </field>
+  </record>
+
+  <record id="view_hr_holidays_filter_operating_unit" model="ir.ui.view">
+    <field name="name">hr.holidays.filter</field>
+    <field name="model">hr.leave</field>
+    <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter" />
+    <field name="arch" type="xml">
+      <field name="department_id" position="before">
+        <field name="operating_unit_id" groups="operating_unit.group_multi_operating_unit"/>
+        <filter name="group_default_operating_unit" string="Default Operating Unit" context="{'group_by':'operating_unit_id'}"/>
+      </field>
+    </field>
+  </record>
+
+   <record id="hr_leave_view_tree_operating_unit" model="ir.ui.view">
+        <field name="name">hr.holidays.view.tree</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_tree" />
+        <field name="arch" type="xml">
+          <field name="state" position="after">
+            <field name="operating_unit_id" groups="operating_unit.group_multi_operating_unit" />
+          </field>
+        </field>
+    </record>
+
+
+</odoo>
